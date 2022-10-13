@@ -1,0 +1,35 @@
+﻿@model ESports.Models.TournamentDetail
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TournamentDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TrName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TrDetails)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrDetails)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TrId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,11 @@
+﻿@model ESports.Models.Team
+
+<option value=""> -- Select Team -- </option>
+
+@if (ViewBag.TeamList != null)
+{
+    foreach (var item in ViewBag.TeamList)
+    {
+        <option value="@item.Value"> @item.Text </option>
+    }
+}

@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBESportsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Auctions">
+          <Key>
+            <PropertyRef Name="BidId" />
+          </Key>
+          <Property Name="BidId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TournamentId" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Other" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Bids">
+          <Key>
+            <PropertyRef Name="BId" />
+          </Key>
+          <Property Name="BId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TeamId" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlayerReg">
+          <Key>
+            <PropertyRef Name="PlayerRegId" />
+          </Key>
+          <Property Name="PlayerRegId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TournamentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Players">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Batting" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Bowling" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Other" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Photo" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Teams">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ManagerName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TournamentId" Type="int" Nullable="false" />
+          <Property Name="Details" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="TournamentDetails">
+          <Key>
+            <PropertyRef Name="TrId" />
+          </Key>
+          <Property Name="TrId" Type="int" Nullable="false" />
+          <Property Name="TrName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TrDetails" Type="varbinary" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Teams_TournamentDetails">
+          <End Role="TournamentDetails" Type="Self.TournamentDetails" Multiplicity="1" />
+          <End Role="Teams" Type="Self.Teams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TournamentDetails">
+              <PropertyRef Name="TrId" />
+            </Principal>
+            <Dependent Role="Teams">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBESportsModelStoreContainer">
+          <EntitySet Name="Auctions" EntityType="Self.Auctions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bids" EntityType="Self.Bids" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerReg" EntityType="Self.PlayerReg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TournamentDetails" EntityType="Self.TournamentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Teams_TournamentDetails" Association="Self.FK_Teams_TournamentDetails">
+            <End Role="TournamentDetails" EntitySet="TournamentDetails" />
+            <End Role="Teams" EntitySet="Teams" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBESportsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Batting" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bowling" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Other" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Photo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="DBESportsEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Players" EntityType="Self.Player" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="TournamentDetails" EntityType="DBESportsModel.TournamentDetail" />
+          <EntitySet Name="Teams" EntityType="DBESportsModel.Team" />
+          <AssociationSet Name="FK_Teams_TournamentDetails" Association="DBESportsModel.FK_Teams_TournamentDetails">
+            <End Role="TournamentDetail" EntitySet="TournamentDetails" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <EntitySet Name="PlayerRegs" EntityType="DBESportsModel.PlayerReg" />
+          <EntitySet Name="Bids" EntityType="DBESportsModel.Bid" />
+          <EntitySet Name="Auctions" EntityType="DBESportsModel.Auction" />
+        </EntityContainer>
+        <EntityType Name="TournamentDetail">
+          <Key>
+            <PropertyRef Name="TrId" />
+          </Key>
+          <Property Name="TrId" Type="Int32" Nullable="false" />
+          <Property Name="TrName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TrDetails" Type="Binary" MaxLength="255" FixedLength="false" />
+          <NavigationProperty Name="Teams" Relationship="DBESportsModel.FK_Teams_TournamentDetails" FromRole="TournamentDetail" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ManagerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TournamentId" Type="Int32" Nullable="false" />
+          <Property Name="Details" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TournamentDetail" Relationship="DBESportsModel.FK_Teams_TournamentDetails" FromRole="Team" ToRole="TournamentDetail" />
+        </EntityType>
+        <Association Name="FK_Teams_TournamentDetails">
+          <End Type="DBESportsModel.TournamentDetail" Role="TournamentDetail" Multiplicity="1" />
+          <End Type="DBESportsModel.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TournamentDetail">
+              <PropertyRef Name="TrId" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="TournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PlayerReg">
+          <Key>
+            <PropertyRef Name="PlayerRegId" />
+          </Key>
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TournamentId" Type="Int32" Nullable="false" />
+          <Property Name="PlayerRegId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Bid">
+          <Key>
+            <PropertyRef Name="BId1" />
+          </Key>
+          <Property Name="BId1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+        </EntityType>
+        <EntityType Name="Auction">
+          <Key>
+            <PropertyRef Name="BidId" />
+          </Key>
+          <Property Name="BidId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TournamentId" Type="Int32" Nullable="false" />
+          <Property Name="TeamId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="Other" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBESportsModelStoreContainer" CdmEntityContainer="DBESportsEntities1">
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="DBESportsModel.Player">
+              <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Batting" ColumnName="Batting" />
+                <ScalarProperty Name="Bowling" ColumnName="Bowling" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DBESportsModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TournamentDetails">
+            <EntityTypeMapping TypeName="DBESportsModel.TournamentDetail">
+              <MappingFragment StoreEntitySet="TournamentDetails">
+                <ScalarProperty Name="TrDetails" ColumnName="TrDetails" />
+                <ScalarProperty Name="TrName" ColumnName="TrName" />
+                <ScalarProperty Name="TrId" ColumnName="TrId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="DBESportsModel.Team">
+              <MappingFragment StoreEntitySet="Teams">
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
+                <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerRegs">
+            <EntityTypeMapping TypeName="DBESportsModel.PlayerReg">
+              <MappingFragment StoreEntitySet="PlayerReg">
+                <ScalarProperty Name="PlayerRegId" ColumnName="PlayerRegId" />
+                <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bids">
+            <EntityTypeMapping TypeName="DBESportsModel.Bid">
+              <MappingFragment StoreEntitySet="Bids">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="BId1" ColumnName="BId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Auctions">
+            <EntityTypeMapping TypeName="DBESportsModel.Auction">
+              <MappingFragment StoreEntitySet="Auctions">
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="TournamentId" ColumnName="TournamentId" />
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

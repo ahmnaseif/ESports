@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET ESports</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("ESports", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Player"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-gear"></i> My Profile
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="PlayerRegsController" asp-action="Index"><i class="bi bi-camera-reels"></i> @Html.ActionLink("Register Tournament", "Create", "PlayerRegs")</a>
+                                <a class="dropdown-item" asp-controller="Producers" asp-action="Index"><i class="bi bi-headset"></i> My Profile</a>
+                            </div>
+                        </li>
+                        <li>@Html.ActionLink("Player", "Index", "Players")</li>
+                    }
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Manager"))
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-gear"></i> My Team
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Cinemas" asp-action="Index"><i class="bi bi-camera-reels"></i> Touornament Register</a>
+                                <a class="dropdown-item" asp-controller="Producers" asp-action="Index"><i class="bi bi-headset"></i> Team Players </a>
+                            </div>
+                        </li>
+                        <li>@Html.ActionLink("Team", "Index", "Teams")</li>
+                    }
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Player", "Index", "Players")</li>
+                        <li>@Html.ActionLink("Team", "Index", "Teams")</li>
+                        <li>@Html.ActionLink("Tournaments", "Index", "TournamentDetails")</li>
+                        <li>@Html.ActionLink("Manage Auction", "Index", "TournamentDetails")</li>
+
+                    }
+
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a>Hi - @User.Identity.Name</a></li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET ESports</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

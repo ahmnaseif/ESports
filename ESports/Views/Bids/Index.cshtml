@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ESports.Models.Bid>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TeamId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeamId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.BId1 }) |
+                @Html.ActionLink("Details", "Details", new { id = item.BId1 }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.BId1 })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@*@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    @Html.DropDownListFor(modal => model.TournamentId, Model.Tornament, "Please select", new { onchange = "document.forms[0].submit();" })
+    <br />
+    <br />
+
+    @Html.DropDownListFor(m => m.PlayerId, Model.Players, "Please select", new { onchange = "document.forms[0].submit();", disabled = "disabled" })
+    <br />
+    <br />
+
+    <br />
+    <input type="submit" value="Submit" />
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+        $(function () {
+            if ($("#PlayerId option").length > 1) {
+                $("#PlayerId").removeAttr("disabled");
+            }
+
+            
+
+            if ($("#TournamentID").val() != "" && $("#PlayerId").val() != "") {
+                var message = "Tournament: " + $("#TOurnamentId option:selected").text();
+                message += "\nPlayer: " + $("#PLayerId option:selected").text();
+                alert(message);
+            }
+        });
+</script>*@

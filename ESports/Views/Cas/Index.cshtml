@@ -1,0 +1,128 @@
+﻿@model ESports.Models.TournamentsWithPlayers
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Auction</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="form-group">
+    @if (ViewBag.TournamentList != null)
+    {
+        @Html.DropDownListFor(model => model.TournamentId, ViewBag.TournamentList as SelectList, "--Select Tournament--", new { @class = "form-control" })
+    }
+</div>
+    <br />
+    <br />
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.Username, new SelectList(""), "--Select Player--", new { @class = "form-control" })
+    </div>
+    <br />
+    <br />
+    <div class="form-group">
+        @Html.DropDownListFor(model => model.TeamId, new SelectList(""), "--Select Team--", new { @class = "form-control" })
+    </div>
+    <br />
+    <br />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @id = "amnt" } })
+            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @id = "lbl" } })
+            </div>
+        </div>*@
+
+
+    @*<div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Bid" onclick="OnSubmit()" class="btn btn-default" />
+        </div>
+    </div>*@
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+    }
+
+    @*@if (ViewBag.TournamentList != null)
+        {
+            @Html.DropDownListFor(m => m.TrId, ViewBag.TournamentList as SelectList, "--Select Tournament--", new { @class = "form-control" })
+        }
+        <br />
+        <br />
+        @Html.DropDownListFor(m => m.Username, new SelectList(""), "--Select Player--", new { @class = "form-control" })
+        <br />
+        <br />
+        @Html.DropDownListFor(m => m.TeamId, new SelectList(""), "--Select Team--", new { @class = "form-control" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Batting, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Batting, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Batting, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+
+        $(document).ready(function () {
+            $("#TournamentId").change(function () {
+                var TournamentId = $(this).val();
+                debugger
+                $.ajax({
+                    type: "post",
+                    url: "/Cas/GetPlayerList?TrId=" + TournamentId,
+                    contentType: "html",
+                    success: function (response) {
+                        debugger
+                        $("#Username").empty();
+                        $("#Username").append(response);
+                    }
+                })
+            })
+
+            $("#Username").change(function () {
+                var TournamentId = $("#TournamentId").val();
+                debugger
+                $.ajax({
+                    type: "post",
+                    url: "/Cas/GetTeamList?TrId=" + TournamentId,
+                    contentType: "html",
+                    success: function (response) {
+                        debugger
+                        $("#TeamId").empty();
+                        $("#TeamId").append(response);
+                    }
+                })
+
+            })
+        })
+
+
+        function OnSubmit() {
+            document.getElementById("amnt").value = document.getElementById("lbl").innerHTML;
+        }
+    </script>
